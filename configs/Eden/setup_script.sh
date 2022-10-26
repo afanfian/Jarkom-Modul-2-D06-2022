@@ -32,9 +32,12 @@ cp /root/ports.conf /etc/apache2
 # Soal no. 16
 # Buat redirect IP dari 10.18.3.3 ke www.wise.eden.d06.com
 cp /root/apache2.conf /etc/apache2/
-mkdir /var/www/html
-cp /root/htaccesses/var-www-html/.htaccess /var/www/html
+# mkdir /var/www/html
+# cp /root/htaccesses/var-www-html/.htaccess /var/www/wise.d06.com
 # -----------------------------------------------------
+
+# Soal no. 17
+cp /root/htaccesses/var-www-eden.wise.d06.com/.htaccess /var/www/eden.wise.d06.com
 
 a2enmod rewrite
 a2dissite 000-default

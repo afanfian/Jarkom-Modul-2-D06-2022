@@ -1,0 +1,2 @@
+RewriteEngine On
+RewriteRule ^(.*)eden(.*)$ http://www.eden.wise.d06.com/public/images/eden.png [L,R=301]
