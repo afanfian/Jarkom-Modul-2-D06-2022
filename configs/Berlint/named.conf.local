@@ -1,0 +1,18 @@
+//
+// Do any local configuration here
+//
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+//include "/etc/bind/zones.rfc1918";
+
+zone "wise.d06.com" {
+	type slave;
+	masters { 10.18.2.2; }; // IP WISE
+	file "/var/lib/bind/wise.d06.com";
+};
+
+zone "operation.wise.d06.com" {
+	type master;
+	file "/etc/bind/operation/operation.wise.d06.com";
+};
