@@ -225,12 +225,38 @@ Muhamad Ridho Pratama       | 5025201186
    Karena banyak informasi dari Handler, buatlah subdomain yang khusus untuk operation yaitu operation.wise.yyy.com dengan alias www.operation.wise.yyy.com yang didelegasikan dari WISE ke Berlint dengan IP menuju ke Eden dalam folder operation (6).  
       
    **Jawaban Soal 6**  
-   
+   1. Pada `Wise`, edit file `/etc/bind/wise/wise.d06.com` dan ubah menjadi seperti di bawah ini. <br>
+   {Picture pada wise file wise.d06.com}
+   2. Kemudian edit file `/etc/bind/named.conf.options` pada `Wise`, comment `dnssec-validation auto;` dan tambahkan `allow-query{any;};` <br>
+   {Picture pada wise file named.conf.options}
+   3. Restart bind9 `Wise` dengan command `service bind9 restart`
+   4. Lakukan langkah kedua pada `Berlint`
+   5. Lalu edit file `/etc/bind/named.conf.local` pada `Berlint` tambahkan syntax berikut:
+ ```
+ zone "operation.wise.d06.com" {
+        type master;
+        file "/etc/bind/wise/operation.wise.d06.com";
+};
+ ```
+	{Picture didalam berlint file named.conf.local}
+   6. Kemudian buatlah folder `wise` pada `Berlint` dengan mengetikkan command `mkdir /etc/bind/operation`
+   7. Dan ketikkan command `cp /etc/bind/db.local /etc/bind/operation/operation.wise.d06.com` pada `Berlint`
+   8. Kemudian edit file `operation.wise.d06.com` pada `Berlint` menjadi seperti dibawah ini <br>
+      {Picture pada berlint file operation.wise.d06.com}
+   9. Restart bind9 `Berlint` dengan command `service bind9 restart`
+   10. Kemudian test dengan cara ping IP `operation.wise.d06.com` dan `www.operation.wise.d06.com` pada `SSS` atau `Garden` <br>
+      {Picture ping pada SSS & Garden operation.wise.d06.com}  
+      {Picture ping pada SSS & Garden www.operation.wise.d06.com}
 ## Soal 7   
    Untuk informasi yang lebih spesifik mengenai Operation Strix, buatlah subdomain melalui Berlint dengan akses strix.operation.wise.yyy.com dengan alias www.strix.operation.wise.yyy.com yang mengarah ke Eden (7).  
       
    **Jawaban Soal 7**  
-   
+   1. Jalankan command `nano /etc/bind/wise/operation.wise.d06.com` pada `Berlint` dan edit seperti gambar berikut untuk membuat subdomain dan aliasnya <br>
+   {Picture didalam berlint file operation.wise.d06.com}  
+   2. Restart bind9 `Berlint` dengan command `service bind9 restart`
+   3. Kemudian test dengan cara ping IP `strix.operation.wise.d06.com` dan `www.strix.operation.wise.d06.com` pada `SSS` atau `Garden` <br>
+    {Picture ping di SSS dan garden strix.operation.wise.d06.com}  
+    {Picture ping di SSS dan garden www.strix.operation.wise.d06.com}  
 ## Soal 8   
    Setelah melakukan konfigurasi server, maka dilakukan konfigurasi Webserver. Pertama dengan webserver www.wise.yyy.com. Pertama, Loid membutuhkan webserver dengan DocumentRoot pada /var/www/wise.yyy.com.
     
