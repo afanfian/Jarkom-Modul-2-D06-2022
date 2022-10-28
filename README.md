@@ -31,7 +31,81 @@ Muhamad Ridho Pratama       | 5025201186
 ## Soal 1   
    WISE akan dijadikan sebagai DNS Master, Berlint akan dijadikan DNS Slave, dan Eden akan digunakan sebagai Web Server. Terdapat 2 Client yaitu SSS, dan Garden. Semua node terhubung pada router Ostania, sehingga dapat mengakses internet (1).  
    
-   **Jawaban Soal 1** 
+   **Jawaban Soal 1**  
+   
+   1. Klik ```servers``` di kiri atas.
+   2. Klik ```local```.
+   3. Klik ```Add blank project```.
+   4. Masukkan nama ```project``` yang diinginkan.
+   5. Klik ```Add project```.
+   6. Klik tombol `Add a node` di samping kiri.
+   7. Lalu tarik `ubuntu-1` ke area kosong di halaman.
+   8. Tunggu hingga proses loading selesai.
+   9. Jika berhasil, maka akan menampilkan tampilan seperti berikut : <br>
+![image](https://user-images.githubusercontent.com/72689610/139519228-16e8c278-119a-4ce7-8ad9-5e7be93f418d.png)  
+   10. Dibawah ini merupakan topologi dari soal modul 2: 
+   
+   11. Kita perlu melakukan setting network pada masing-masing node dengan fitur `Edit network configuration`, untuk konfigurasi network pada masing - masing node diisi dengan setting sebagai berikut :
+   - Ostania
+   ```
+   auto eth0
+   iface eth0 inet dhcp
+
+   auto eth1
+   iface eth1 inet static
+      address 10.18.1.1
+      netmask 255.255.255.0
+
+   auto eth2
+   iface eth2 inet static
+      address 10.18.2.1
+      netmask 255.255.255.0
+      
+   auto eth3
+   iface eth2 inet static
+      address 10.18.3.1
+      netmask 255.255.255.0
+   ```
+   - SSS
+   ```
+   auto eth0
+   iface eth0 inet static
+      address 10.18.1.2
+      netmask 255.255.255.0
+      gateway 10.18.1.1
+   ```
+   - Garden
+   ```
+   auto eth0
+   iface eth0 inet static
+      address 10.18.1.3
+      netmask 255.255.255.0
+      gateway 10.18.1.1
+   ```
+   - Wise
+   ```
+   auto eth0
+   iface eth0 inet static
+      address 10.18.2.2
+      netmask 255.255.255.0
+      gateway 10.18.2.1
+   ```
+   - Slave
+   ```
+   auto eth0
+   iface eth0 inet static
+      address 10.18.3.2
+      netmask 255.255.255.0
+      gateway 10.18.3.1
+   ```
+   - Eden
+   ```
+   auto eth0
+   iface eth0 inet static
+      address 10.18.3.3
+      netmask 255.255.255.0
+      gateway 10.18.3.1
+  ```
 ## Soal 2   
    Untuk mempermudah mendapatkan informasi mengenai misi dari Handler, bantulah Loid membuat website utama dengan akses wise.yyy.com dengan alias www.wise.yyy.com pada folder wise (2).  
    
