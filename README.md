@@ -43,8 +43,8 @@ Muhamad Ridho Pratama       | 5025201186
    8. Tunggu hingga proses loading selesai.
    9. Jika berhasil, maka akan menampilkan tampilan seperti berikut : <br>
 ![image](https://user-images.githubusercontent.com/72689610/139519228-16e8c278-119a-4ce7-8ad9-5e7be93f418d.png)  
-   10. Dibawah ini merupakan topologi dari soal modul 2: 
-   
+   10. Dibawah ini merupakan topologi dari soal modul 2:  
+   {Picture topologi}
    11. Kita perlu melakukan setting network pada masing-masing node dengan fitur `Edit network configuration`, untuk konfigurasi network pada masing - masing node diisi dengan setting sebagai berikut :
    - Ostania
    ```
@@ -90,7 +90,7 @@ Muhamad Ridho Pratama       | 5025201186
       netmask 255.255.255.0
       gateway 10.18.2.1
    ```
-   - Slave
+   - Berlint
    ```
    auto eth0
    iface eth0 inet static
@@ -105,11 +105,64 @@ Muhamad Ridho Pratama       | 5025201186
       address 10.18.3.3
       netmask 255.255.255.0
       gateway 10.18.3.1
-  ```
+  ```  
+   12. Restart semua node.  
+   13. Topologi sudah bisa berjalan secara lokal, namun untuk mengakses jaringan keluar maka perlu dilakukan beberapa konfigurasi sebagai berikut :
+   - Ketikkan `vim .bashrc` pada router `Ostania` dan masukkan command berikut :
+   ```
+   iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -s 192.173.0.0/16
+   ```
+- Ketikkan command `cat /etc/resolv.conf` di `Ostania` kemudian isi dengan nameserver yang sesuai
+   ```
+   nameserver 192.168.122.1
+   ```
+- Pada node Wise, SSS, Garden,dan Eden. Ketikkan command `service .bashrc` kemudian masukkan command berikut : 
+   ```
+   echo nameserver 192.168.122.1 > /etc/resolv.conf
+   ```
+ - Restart kembali semua node dan semua node sekarang sudah bisa melakukan ping ke ww.google.com, yang artinya topologi sudah bisa mengakses jaringan keluar. <br>
+   {Picture ketika ping google.com}
 ## Soal 2   
    Untuk mempermudah mendapatkan informasi mengenai misi dari Handler, bantulah Loid membuat website utama dengan akses wise.yyy.com dengan alias www.wise.yyy.com pada folder wise (2).  
-   
-   **Jawaban Soal 2** 
+
+   **Jawaban Soal 2**  
+1. Buka WebConsole `Wise`, dan `Berlint`. Ketikkan `service .bashrc` dan masukkan command berikut
+  ```
+  apt-get update
+  apt-get install bind9 -y
+  ```
+2. Buka WebConsole `SSS` ,dan `Garden`. Ketikkan `service .bashrc` dan masukkan command berikut
+ ```
+ apt-get update
+ apt-get install dnsutils -y
+ ```
+3. Restart semua node.
+4. Masukkan command berikut pada `Wise`
+  ```
+ nano /etc/bind/named.conf.local
+  ```
+5. Isikan configurasi zone domain **wise.d06.com** sesuai dengan syntax berikut:
+  ```
+  zone "wise.d06.com" {
+	type master;
+	file "/etc/bind/wise/wise.d06.com";
+};
+  ```
+6. Buat folder **wise** di dalam /etc/bind
+  ```
+  mkdir /etc/bind/wise
+  ```
+7. Copy file `db.local` pada path `/etc/bind` ke dalam folder **wise** yang baru saja dibuat dan ubah namanya menjadi `wise.d06.com`
+  ```
+  cp /etc/bind/db.local /etc/bind/wise/wise.d06.com
+  ```
+8. Buka file **wise.d06.com** dan edit seperti gambar berikut dengan IP 10.18.2.2 dan IP 10.18.3.3 serta record CNAME `www` <br>
+   {Picture dalam file wise.d06.com}  
+9. Restart bind9 dengan command `service bind9 restart`
+10. Comment nameserver `Ostania` pada `etc/resolv.conf` di node `SSS` dan `Garden` kemudian tambahkan `nameserver 10.18.2.2` <br>
+   {Picture dalam file etc/resolv.conf di SS & Garden}  
+12. Kemudian test dengan cara ping IP `wise.d06.com` dan `wise.d06.com` pada `SSS` atau `Garden` <br>
+   {Picture dalam ping wise.d06.com/www.wise.d06.com di SSS & Garden}  
 ## Soal 3  
    Setelah itu ia juga ingin membuat subdomain eden.wise.yyy.com dengan alias www.eden.wise.yyy.com yang diatur DNS-nya di WISE dan mengarah ke Eden (3).  
    
