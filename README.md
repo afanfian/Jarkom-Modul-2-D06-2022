@@ -29,7 +29,7 @@ Muhamad Ridho Pratama       | 5025201186
 - [Kendala](#kendala)
 
 ## Soal 1   
-   WISE akan dijadikan sebagai DNS Master, Berlint akan dijadikan DNS Slave, dan Eden akan digunakan sebagai Web Server. Terdapat 2 Client yaitu SSS, dan Garden. Semua node terhubung pada router Ostania, sehingga dapat mengakses internet (1).  
+   WISE akan dijadikan sebagai DNS Master, Berlint akan dijadikan DNS Slave, dan Eden akan digunakan sebagai Web Server. Terdapat 2 Client yaitu SSS, dan Garden. Semua node terhubung pada router Ostania, sehingga dapat mengakses internet.  
    
    **Jawaban Soal 1**  
    
@@ -123,7 +123,7 @@ Muhamad Ridho Pratama       | 5025201186
  - Restart kembali semua node dan semua node sekarang sudah bisa melakukan ping ke ww.google.com, yang artinya topologi sudah bisa mengakses jaringan keluar. <br>
    {Picture ketika ping google.com}
 ## Soal 2   
-   Untuk mempermudah mendapatkan informasi mengenai misi dari Handler, bantulah Loid membuat website utama dengan akses wise.yyy.com dengan alias www.wise.yyy.com pada folder wise (2).  
+   Untuk mempermudah mendapatkan informasi mengenai misi dari Handler, bantulah Loid membuat website utama dengan akses wise.yyy.com dengan alias www.wise.yyy.com pada folder wise.  
 
    **Jawaban Soal 2**  
 1. Buka WebConsole `Wise`, dan `Berlint`. Ketikkan `service .bashrc` dan masukkan command berikut
@@ -164,7 +164,7 @@ Muhamad Ridho Pratama       | 5025201186
 12. Kemudian test dengan cara ping IP `wise.d06.com` dan `wise.d06.com` pada `SSS` atau `Garden` <br>
    {Picture dalam ping wise.d06.com/www.wise.d06.com di SSS & Garden}  
 ## Soal 3  
-   Setelah itu ia juga ingin membuat subdomain eden.wise.yyy.com dengan alias www.eden.wise.yyy.com yang diatur DNS-nya di WISE dan mengarah ke Eden (3).  
+   Setelah itu ia juga ingin membuat subdomain eden.wise.yyy.com dengan alias www.eden.wise.yyy.com yang diatur DNS-nya di WISE dan mengarah ke Eden.  
    
    **Jawaban Soal 3**  
    1. Jalankan command `nano /etc/bind/kaizoku/wise.d06.com` dan masukkan data seperti gambar berikut untuk membuat subdomain dan aliasnya <br>
@@ -174,7 +174,7 @@ Muhamad Ridho Pratama       | 5025201186
    {Picture ketika ping di SSS eden.wise.d06.com}  
    {Picture ketika ping di SSS www.eden.wise.d06.com}  
 ## Soal 4   
-   Buat juga reverse domain untuk domain utama (4).  
+   Buat juga reverse domain untuk domain utama.  
    
    **Jawaban Soal 4**  
    1. Jalankan command `nano /etc/bind/named.conf.local` pada `Wise`
@@ -192,7 +192,7 @@ Muhamad Ridho Pratama       | 5025201186
    6. Test dengan cara mengetikkan command `host -t PTR "10.18.2.2"` pada `SSS`. Jika muncul seperti pada gambar berikut berarti sudah benar. <br>  
       {Picture PING host -t PTR 10.18.2.2 di SSS} 
 ## Soal 5   
-   Agar dapat tetap dihubungi jika server WISE bermasalah, buatlah juga Berlint sebagai DNS Slave untuk domain utama (5).  
+   Agar dapat tetap dihubungi jika server WISE bermasalah, buatlah juga Berlint sebagai DNS Slave untuk domain utama.  
    
    **Jawaban Soal 5**  
    1. Edit file `/etc/bind/named.conf.local` pada `Wise` tepatnya pada zone `franky.A09.com` dan sesuaikan dengan syntax berikut
@@ -222,7 +222,7 @@ Muhamad Ridho Pratama       | 5025201186
    7. Lalu ping ke semua domain atau subdomain yang telah dibuat.  
    {Picture ping domain atau subdomain}
 ## Soal 6   
-   Karena banyak informasi dari Handler, buatlah subdomain yang khusus untuk operation yaitu operation.wise.yyy.com dengan alias www.operation.wise.yyy.com yang didelegasikan dari WISE ke Berlint dengan IP menuju ke Eden dalam folder operation (6).  
+   Karena banyak informasi dari Handler, buatlah subdomain yang khusus untuk operation yaitu operation.wise.yyy.com dengan alias www.operation.wise.yyy.com yang didelegasikan dari WISE ke Berlint dengan IP menuju ke Eden dalam folder operation.  
       
    **Jawaban Soal 6**  
    1. Pada `Wise`, edit file `/etc/bind/wise/wise.d06.com` dan ubah menjadi seperti di bawah ini. <br>
@@ -248,7 +248,7 @@ Muhamad Ridho Pratama       | 5025201186
       {Picture ping pada SSS & Garden operation.wise.d06.com}  
       {Picture ping pada SSS & Garden www.operation.wise.d06.com}
 ## Soal 7   
-   Untuk informasi yang lebih spesifik mengenai Operation Strix, buatlah subdomain melalui Berlint dengan akses strix.operation.wise.yyy.com dengan alias www.strix.operation.wise.yyy.com yang mengarah ke Eden (7).  
+   Untuk informasi yang lebih spesifik mengenai Operation Strix, buatlah subdomain melalui Berlint dengan akses strix.operation.wise.yyy.com dengan alias www.strix.operation.wise.yyy.com yang mengarah ke Eden.  
       
    **Jawaban Soal 7**  
    1. Jalankan command `nano /etc/bind/wise/operation.wise.d06.com` pada `Berlint` dan edit seperti gambar berikut untuk membuat subdomain dan aliasnya <br>
@@ -273,11 +273,6 @@ Muhamad Ridho Pratama       | 5025201186
 		DocumentRoot /var/www/wise.d06.com
 		ServerName www.wise.d06.com
 		ServerAlias www.wise.d06.com wise.d06.com
-
-		<Directory /var/www/wise.d06.com.conf>
-			Options +FollowSymLinks -Multiviews
-			AllowOverride All
-		</Directory>
 		
 		ErrorLog ${APACHE_LOG_DIR}/error.log
 		CustomLog ${APACHE_LOG_DIR}/access.log combined
@@ -288,12 +283,43 @@ Muhamad Ridho Pratama       | 5025201186
       a2ensite wise.d06.com
       ```
    4. Download semua resource soal dan letakkan pada /var/www/eden.wise.d06.com
-   5. Ketika Mengakses url www.wise.d06.com dengan lynx maka akan didapatkan hasil berikut.
-      [Gambar akses www.wise.d06.com dari klien]  
+   5. Ketika Mengakses url www.wise.d06.com dengan lynx maka akan didapatkan hasil berikut.  
+      -- {Gambar akses www.wise.d06.com dari klien} --
 ## Soal 9   
-   Setelah itu, Loid juga membutuhkan agar url www.wise.yyy.com/index.php/home dapat menjadi menjadi www.wise.yyy.com/home (9).  
+   Setelah itu, Loid juga membutuhkan agar url www.wise.yyy.com/index.php/home dapat menjadi menjadi www.wise.yyy.com/home.  
       
    **Jawaban Soal 9** 
+   1. Edit file wise.d06.com.conf menjadi 
+      ```
+      <VirtualHost *:80>
+         ServerAdmin webmaster@localhost
+         DocumentRoot /var/www/wise.d06.com
+         ServerName www.wise.d06.com
+         ServerAlias www.wise.d06.com wise.d06.com
+
+         <Directory /var/www/wise.d06.com.conf>
+            Options +FollowSymLinks -Multiviews
+            AllowOverride All
+         </Directory>
+         
+         ErrorLog ${APACHE_LOG_DIR}/error.log
+         CustomLog ${APACHE_LOG_DIR}/access.log combined
+	   </VirtualHost>
+
+      ```  
+   2. Buat file .htaccess pada direktori /var/www/wise.d06.com lalu isikan dengan
+      ```
+      RewriteEngine On
+      RewriteCond %{REQUEST_FILENAME} !-d
+      RewriteRule ^([^\.]+)$ $1.php [NC,L]
+
+      RewriteBase /
+      RewriteCond %{HTTP_HOST} ^10\.18\.3\.3$
+      RewriteRule ^(.*)$ http://www.wise.d06.com/$1 [L,R=301]
+      ```    
+   2. Restart apache2 dengan cara `service apache2 restart` 
+   3. Ketika Mengakses url www.wise.d06.com/home dengan lynx maka akan didapatkan hasil berikut.  
+      -- {Gambar akses www.wise.d06.com/home dari klien} --   
 ## Soal 10   
    Setelah itu, pada subdomain www.eden.wise.yyy.com, Loid membutuhkan penyimpanan aset yang memiliki DocumentRoot pada /var/www/eden.wise.yyy.com (10).  
       
