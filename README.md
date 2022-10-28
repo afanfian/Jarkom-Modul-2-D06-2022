@@ -9,24 +9,27 @@ Rere Arga Dewanata          | 5025201078
 Muhamad Ridho Pratama       | 5025201186
 
 ## Daftar Isi  
-- [Soal1](#soal-1)
-- [Soal2](#soal-2)
-- [Soal3](#soal-3)
-- [Soal4](#soal-4)
-- [Soal5](#soal-5)
-- [Soal6](#soal-6)
-- [Soal7](#soal-7)
-- [Soal8](#soal-8)
-- [Soal9](#soal-9)
-- [Soal10](#soal-10)
-- [Soal11](#soal-11)
-- [Soal12](#soal-12)
-- [Soal13](#soal-13)
-- [Soal14](#soal-14)
-- [Soal15](#soal-15)
-- [Soal16](#soal-16)
-- [Soal17](#soal-17)
-- [Kendala](#kendala)
+- [Laporan Resmi Praktikum Modul 2 Jarkom Kelompok D06](#laporan-resmi-praktikum-modul-2-jarkom-kelompok-d06)
+    - [Anggota Kelompok:](#anggota-kelompok)
+  - [Daftar Isi](#daftar-isi)
+  - [Soal 1](#soal-1)
+  - [Soal 2](#soal-2)
+  - [Soal 3](#soal-3)
+  - [Soal 4](#soal-4)
+  - [Soal 5](#soal-5)
+  - [Soal 6](#soal-6)
+  - [Soal 7](#soal-7)
+  - [Soal 8](#soal-8)
+  - [Soal 9](#soal-9)
+  - [Soal 10](#soal-10)
+  - [Soal 11](#soal-11)
+  - [Soal 12](#soal-12)
+  - [Soal 13](#soal-13)
+  - [Soal 14](#soal-14)
+  - [Soal 15](#soal-15)
+  - [Soal 16](#soal-16)
+  - [Soal 17](#soal-17)
+  - [Kendala Pengerjaan](#kendala-pengerjaan)
 
 ## Soal 1   
    WISE akan dijadikan sebagai DNS Master, Berlint akan dijadikan DNS Slave, dan Eden akan digunakan sebagai Web Server. Terdapat 2 Client yaitu SSS, dan Garden. Semua node terhubung pada router Ostania, sehingga dapat mengakses internet.  
@@ -539,3 +542,10 @@ Muhamad Ridho Pratama       | 5025201186
    Karena website www.eden.wise.yyy.com semakin banyak pengunjung dan banyak modifikasi sehingga banyak gambar-gambar yang random, maka Loid ingin mengubah request gambar yang memiliki substring “eden” akan diarahkan menuju eden.png. Bantulah Agent Twilight dan Organisasi WISE menjaga perdamaian! (17).   
       
    **Jawaban Soal 17** 
+
+## Kendala Pengerjaan
+
+   - Terdapat masalah/error saat export/import portable object dari/ke versi GNS3 yang berbeda. Pada modul, dijelaskan untuk VirtualBox menggunakan versi GNS3 2.2.19 dan untuk VMWare menggunakan versi GNS3 2.2.19. Akan tetapi, portable project dari versi 2.2.26 (serta kami juga mencoba 2.2.34) tidak bisa di-import ke 2.2.19
+   - Sempat bingung kapan menggunakan DNS record A dan kapan menggunakan CNAME saat ingin membuat alias
+   - Beberapa alamat web server sempat tidak bisa diakses, tetapi bisa di-`ping` dan kami tidak menemukan error-nya, akhirnya kami memutuskan untuk membuat semuanya dari ulang
+   - Pada no. 16, saat mengakses alamat Eden, malah ter-redirect ke alamat eden.wise.d06.com, bukan ke wise.d06.com
