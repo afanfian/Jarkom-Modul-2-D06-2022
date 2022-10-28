@@ -442,7 +442,44 @@ Muhamad Ridho Pratama       | 5025201186
 ## Soal 13   
    Loid juga meminta Franky untuk dibuatkan konfigurasi virtual host. Virtual host ini bertujuan untuk dapat mengakses file asset www.eden.wise.yyy.com/public/js menjadi www.eden.wise.yyy.com/js (13).  
       
-   **Jawaban Soal 13** 
+   **Jawaban Soal 13**  
+   1. Berikut adalah tampilan ketika mengakses url www.eden.wise.d06.com/public/js dengan lynx.  
+      -- {Gambar akses www.eden.wise.d06.com/public/js dari klien} --
+   2. Mengedit file eden.wise.d06.com.conf dengan menambahkan Alias "/js" "/var/www/eden.wise.d06.com/public/js" menjadi seperti ini
+   ```
+   <VirtualHost *:80>
+      ServerAdmin webmaster@localhost
+      DocumentRoot /var/www/eden.wise.d06.com
+      ServerName www.eden.wise.d06.com
+      ServerAlias www.eden.wise.d06.com eden.wise.d06.com
+
+      <Directory /var/www/eden.wise.d06.com/public>
+         Options +Indexes
+      </Directory>
+
+      <Directory /var/www/eden.wise.d06.com/error>
+         Options -Indexes
+      </Directory>
+
+      <Directory /var/www/eden.wise.d06.com/public/js>
+         Options +Indexes
+      </Directory>
+
+      Alias "/js" "/var/www/eden.wise.d06.com/public/js"
+
+      ErrorDocument 404 /error/404.html
+
+      <Directory /var/www/eden.wise.d06.com/public/images>
+         AllowOverride All
+      </Directory>
+
+      ErrorLog ${APACHE_LOG_DIR}/error.log
+      CustomLog ${APACHE_LOG_DIR}/access.log combined
+   </VirtualHost>
+   ```
+   3. Restart apache dengan cara `service apache2 restart`
+   4. Berikut adalah tampilan ketika mengakses url www.eden.wise.d06.com/js dengan lynx.  
+      -- {Gambar akses www.eden.wise.d06.com/js dari klien} --
 ## Soal 14   
    Loid meminta agar www.strix.operation.wise.yyy.com hanya bisa diakses dengan port 15000 dan port 15500 (14).  
       
