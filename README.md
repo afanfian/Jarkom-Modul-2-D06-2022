@@ -481,9 +481,52 @@ Muhamad Ridho Pratama       | 5025201186
    4. Berikut adalah tampilan ketika mengakses url www.eden.wise.d06.com/js dengan lynx.  
       -- {Gambar akses www.eden.wise.d06.com/js dari klien} --
 ## Soal 14   
-   Loid meminta agar www.strix.operation.wise.yyy.com hanya bisa diakses dengan port 15000 dan port 15500 (14).  
+   Loid meminta agar www.strix.operation.wise.yyy.com hanya bisa diakses dengan port 15000 dan port 15500.  
       
    **Jawaban Soal 14** 
+   1. Mengedit file strix.operation.wise.d06.com.conf dengan menambahkan Listen 15000 dan Listen 15500 menjadi seperti ini  
+
+   ```
+      <VirtualHost *:15000 *:15500>
+
+      ServerAdmin webmaster@localhost
+      DocumentRoot /var/www/strix.operation.wise.d06
+      ServerName www.strix.operation.wise.d06.com
+      ServerAlias www.strix.operation.wise.d06.com strix.operation.wise.d06.com
+
+      <Directory /var/www/strix.operation.wise.d06>
+         AuthType Basic
+         AuthName "Restricted Content"
+         AuthUserFile /etc/apache2/.htpasswd
+         Require valid-user
+      </Directory>	
+
+      ErrorLog ${APACHE_LOG_DIR}/error.log
+      CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+      </VirtualHost>
+   ```
+   2. Menambahkan port pada /etc/apache2/ports.conf menjadi seperti ini
+   ```
+   Listen 80
+   Listen 15000
+   Listen 15500
+
+   <IfModule ssl_module>
+      Listen 443
+   </IfModule>
+
+   <IfModule mod_gnutls.c>
+      Listen 443
+   </IfModule>
+   ```
+   3. Restart apache dengan cara `service apache2 restart`
+   4. Berikut adalah tampilan ketika mengakses url www.strix.operation.wise.d06.com:15000 dengan lynx.  
+      -- {Gambar akses www.strix.operation.wise.d06.com:15000 dari klien} --
+   5. Berikut adalah tampilan ketika mengakses url www.strix.operation.wise.d06.com:15500 dengan lynx.  
+      -- {Gambar akses www.strix.operation.wise.d06.com:15500 dari klien} --
+   
+
 ## Soal 15   
    Dengan autentikasi username Twilight dan password opStrix dan file di /var/www/strix.operation.wise.yyy (15).  
       
