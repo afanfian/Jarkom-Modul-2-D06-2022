@@ -30,6 +30,7 @@ Muhamad Ridho Pratama       | 5025201186
   - [Soal 16](#soal-16)
   - [Soal 17](#soal-17)
   - [Kendala Pengerjaan](#kendala-pengerjaan)
+  - [Referensi](#referensi)
 
 ## Soal 1   
    WISE akan dijadikan sebagai DNS Master, Berlint akan dijadikan DNS Slave, dan Eden akan digunakan sebagai Web Server. Terdapat 2 Client yaitu SSS, dan Garden. Semua node terhubung pada router Ostania, sehingga dapat mengakses internet.  
@@ -123,7 +124,7 @@ Muhamad Ridho Pratama       | 5025201186
    ```
    echo nameserver 192.168.122.1 > /etc/resolv.conf
    ```
- - Restart kembali semua node dan semua node sekarang sudah bisa melakukan ping ke ww.google.com, yang artinya topologi sudah bisa mengakses jaringan keluar. <br>
+ - Restart kembali semua node dan semua node sekarang sudah bisa melakukan ping ke www.google.com, yang artinya topologi sudah bisa mengakses jaringan keluar. <br>
    {Picture ketika ping google.com}
 ## Soal 2   
    Untuk mempermudah mendapatkan informasi mengenai misi dari Handler, bantulah Loid membuat website utama dengan akses wise.yyy.com dengan alias www.wise.yyy.com pada folder wise.  
@@ -448,7 +449,7 @@ Muhamad Ridho Pratama       | 5025201186
    **Jawaban Soal 13**  
    1. Berikut adalah tampilan ketika mengakses url www.eden.wise.d06.com/public/js dengan lynx.  
       -- {Gambar akses www.eden.wise.d06.com/public/js dari klien} --
-   2. Mengedit file eden.wise.d06.com.conf dengan menambahkan Alias "/js" "/var/www/eden.wise.d06.com/public/js" menjadi seperti ini
+   2. Mengedit file eden.wise.d06.com.conf dengan menambahkan `Alias "/js" "/var/www/eden.wise.d06.com/public/js"` menjadi seperti ini
    ```
    <VirtualHost *:80>
       ServerAdmin webmaster@localhost
@@ -531,21 +532,78 @@ Muhamad Ridho Pratama       | 5025201186
    
 
 ## Soal 15   
-   Dengan autentikasi username Twilight dan password opStrix dan file di /var/www/strix.operation.wise.yyy (15).  
+   Dengan autentikasi username Twilight dan password opStrix dan file di /var/www/strix.operation.wise.yyy (15).
       
    **Jawaban Soal 15** 
+
+   1. Pada Eden, di file /etc/apache2/sites-available/strix.operation.wise.d06.com.conf, tambahkan line berikut:
+   ```
+   <Directory /var/www/strix.operation.wise.d06>
+		AuthType Basic
+		AuthName "Restricted Content"
+		AuthUserFile /etc/apache2/.htpasswd
+		Require valid-user
+	</Directory>
+   ```
+   sehingga menjadi
+   ```
+   <VirtualHost *:15000 *:15500>
+      ServerAdmin webmaster@localhost
+      DocumentRoot /var/www/strix.operation.wise.d06
+      ServerName www.strix.operation.wise.d06.com
+      ServerAlias www.strix.operation.wise.d06.com strix.operation.wise.d06.com
+
+      <Directory /var/www/strix.operation.wise.d06>
+         AuthType Basic
+         AuthName "Restricted Content"
+         AuthUserFile /etc/apache2/.htpasswd
+         Require valid-user
+      </Directory>
+
+      ErrorLog ${APACHE_LOG_DIR}/error.log
+      CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+   </VirtualHost>
+   ```
+
+   Lalu, buat file .htpasswd dengan username Twilight dan diletakkan di /etc/apache2, dengan cara menjalankan command `htpasswd -c /etc/apache2 Twilight`, lalu akan diminta untuk memasukkan password, ketikkan "opStrix" tanpa tanda petik.
+
+   (SS akses strix.operation.wise.d06.com di port 15000 dan 15500 dan diminta autentikasi)
+
+   
 ## Soal 16   
    Dan setiap kali mengakses IP Eden akan dialihkan secara otomatis ke www.wise.yyy.com (16).  
       
-   **Jawaban Soal 16** 
+   **Jawaban Soal 16**
+
+   Pada Eden, di file /etc/apache2/sites-available/000-default.conf, ganti variabel DocumentRoot ke /var/www/wise.d06.com
+   ```
+   <VirtualHost *:80>
+      DocumentRoot /var/www/wise.d06.com
+   </VirtualHost>
+   ```
+
 ## Soal 17   
    Karena website www.eden.wise.yyy.com semakin banyak pengunjung dan banyak modifikasi sehingga banyak gambar-gambar yang random, maka Loid ingin mengubah request gambar yang memiliki substring “eden” akan diarahkan menuju eden.png. Bantulah Agent Twilight dan Organisasi WISE menjaga perdamaian! (17).   
       
-   **Jawaban Soal 17** 
+   **Jawaban Soal 17**
+
+   1. Pada Eden, tambahkan line berikut ke file /etc/apache2/sites-available/eden.wise.d06.com.conf
+   ```
+   <Directory /var/www/eden.wise.d06.com/public/images>
+            AllowOverride All
+   </Directory>
+   ```
+   2. Buat file .htaccess di /var/www/eden.wise.d06.com, lalu tambahkan line berikut
+   ```
+   RewriteEngine On
+   RewriteRule ^(.*)eden(.*)$ http://www.eden.wise.d06.com/public/images/eden.png [L,R=301]
+   ```
 
 ## Kendala Pengerjaan
-
    - Terdapat masalah/error saat export/import portable object dari/ke versi GNS3 yang berbeda. Pada modul, dijelaskan untuk VirtualBox menggunakan versi GNS3 2.2.19 dan untuk VMWare menggunakan versi GNS3 2.2.19. Akan tetapi, portable project dari versi 2.2.26 (serta kami juga mencoba 2.2.34) tidak bisa di-import ke 2.2.19
    - Sempat bingung kapan menggunakan DNS record A dan kapan menggunakan CNAME saat ingin membuat alias
    - Beberapa alamat web server sempat tidak bisa diakses, tetapi bisa di-`ping` dan kami tidak menemukan error-nya, akhirnya kami memutuskan untuk membuat semuanya dari ulang
    - Pada no. 16, saat mengakses alamat Eden, malah ter-redirect ke alamat eden.wise.d06.com, bukan ke wise.d06.com
+
+## Referensi
