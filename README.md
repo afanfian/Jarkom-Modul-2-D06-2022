@@ -166,23 +166,71 @@ Muhamad Ridho Pratama       | 5025201186
 ## Soal 3  
    Setelah itu ia juga ingin membuat subdomain eden.wise.yyy.com dengan alias www.eden.wise.yyy.com yang diatur DNS-nya di WISE dan mengarah ke Eden (3).  
    
-   **Jawaban Soal 3** 
+   **Jawaban Soal 3**  
+   1. Jalankan command `nano /etc/bind/kaizoku/wise.d06.com` dan masukkan data seperti gambar berikut untuk membuat subdomain dan aliasnya <br>
+  {Picture didalam wise file wise.d06.com}  
+  2. Restart bind9 dengan menggunakan command `service bind9 restart`
+  3. Kemudian test dengan cara ping IP `eden.wise.d06.com` dan `www.eden.wise.d06.com` pada `Loguetown` atau `Alabasta` <br>
+   {Picture ketika ping di SSS eden.wise.d06.com}  
+   {Picture ketika ping di SSS www.eden.wise.d06.com}  
 ## Soal 4   
    Buat juga reverse domain untuk domain utama (4).  
    
-   **Jawaban Soal 4** 
+   **Jawaban Soal 4**  
+   1. Jalankan command `nano /etc/bind/named.conf.local` pada `Wise`
+   2. Lalu tambahkan konfigurasi berikut ke dalam file `named.conf.local` dibawah zone `wise.d06.com`. Tambahkan reverse IP `10.18.2` yaitu `10.18.2`. 
+ ```
+ zone "2.18.10.in-addr.arpa" {
+    type master;
+    file "/etc/bind/wise/2.18.10.in-addr.arpa";
+};
+ ```  
+	{Picture didalam wise file named.conf.local}  
+   3. Copykan file `db.local` pada path `/etc/bind` ke dalam folder **wise** yang baru saja dibuat dan ubah namanya menjadi `2.18.10.in-addr.arpa`  
+   4. Edit file `2.18.10.in-addr.arpaa` menggunakan command `nano/etc/bind/wise/2.18.10.in-addr.arpa` menjadi seperti gambar di bawah ini <br>    {Picture didalam wise file named.conf.local} 
+   5. Restart bind9 dengan command `service bind9 restart`
+   6. Test dengan cara mengetikkan command `host -t PTR "10.18.2.2"` pada `SSS`. Jika muncul seperti pada gambar berikut berarti sudah benar. <br>  
+      {Picture PING host -t PTR 10.18.2.2 di SSS} 
 ## Soal 5   
    Agar dapat tetap dihubungi jika server WISE bermasalah, buatlah juga Berlint sebagai DNS Slave untuk domain utama (5).  
    
-   **Jawaban Soal 5** 
+   **Jawaban Soal 5**  
+   1. Edit file `/etc/bind/named.conf.local` pada `Wise` tepatnya pada zone `franky.A09.com` dan sesuaikan dengan syntax berikut
+ ```
+ zone "wise.d06.com" {
+        type master;
+        notify yes;
+        also-notify { 10.18.3.2; };
+        allow-transfer { 10.18.3.2; };
+        file "/etc/bind/wise/wise.d06.com";
+};
+ ```
+	{Picture didalam wise named.conf.local}  
+   2. Restart bind9 `Wise` dengan command `service bind9 restart`
+   3. Kemudian buka file `/etc/bind/named.conf.local` pada `Berlint` dan tambahkan syntax berikut:
+	 ```
+	 zone "wise.d06.com" {
+	    type slave;
+	    masters { 10.18.2.2; };
+	    file "/var/lib/bind/wise.d06.com";
+	};
+	 ```
+	{Picture didalam berlint file named.conf.local}
+   4. Restart bind9 `Berlint` dengan command `service bind9 restart`
+   5. Test dengan cara mematikan bind9 pada `Wise` yaitu dengan mengetikkan comman `service bind9 stop`
+   6. Di node `SSS` dan `Garden` tambahkan `nameserver 10.18.3.2`.
+   7. Lalu ping ke semua domain atau subdomain yang telah dibuat.  
+   {Picture ping domain atau subdomain}
 ## Soal 6   
    Karena banyak informasi dari Handler, buatlah subdomain yang khusus untuk operation yaitu operation.wise.yyy.com dengan alias www.operation.wise.yyy.com yang didelegasikan dari WISE ke Berlint dengan IP menuju ke Eden dalam folder operation (6).  
       
-   **Jawaban Soal 6** 
+   **Jawaban Soal 6**  
+   
 ## Soal 7   
    Untuk informasi yang lebih spesifik mengenai Operation Strix, buatlah subdomain melalui Berlint dengan akses strix.operation.wise.yyy.com dengan alias www.strix.operation.wise.yyy.com yang mengarah ke Eden (7).  
       
-   **Jawaban Soal 7** 
+   **Jawaban Soal 7**  
+   
 ## Soal 8   
    Setelah melakukan konfigurasi server, maka dilakukan konfigurasi Webserver. Pertama dengan webserver www.wise.yyy.com. Pertama, Loid membutuhkan webserver dengan DocumentRoot pada /var/www/wise.yyy.com.
     
