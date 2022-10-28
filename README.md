@@ -184,9 +184,38 @@ Muhamad Ridho Pratama       | 5025201186
       
    **Jawaban Soal 7** 
 ## Soal 8   
-   Setelah melakukan konfigurasi server, maka dilakukan konfigurasi Webserver. Pertama dengan webserver www.wise.yyy.com. Pertama, Loid membutuhkan webserver dengan DocumentRoot pada /var/www/wise.yyy.com (8).  
-      
-   **Jawaban Soal 8** 
+   Setelah melakukan konfigurasi server, maka dilakukan konfigurasi Webserver. Pertama dengan webserver www.wise.yyy.com. Pertama, Loid membutuhkan webserver dengan DocumentRoot pada /var/www/wise.yyy.com.
+    
+   **Jawaban Soal 8**  
+   Pada Node EDEN, lakukan langkah berikut:
+   1. Copy file /etc/apache2/sites-available/000-default.conf ke /etc/apache2/sites-available/wise.d06.com.conf dengan command
+      ```
+      	cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/wise.d06.com.conf 
+      ```
+   2. Edit file wise.d06.com.conf menjadi 
+      ```
+	<VirtualHost *:80>
+		ServerAdmin webmaster@localhost
+		DocumentRoot /var/www/wise.d06.com
+		ServerName www.wise.d06.com
+		ServerAlias www.wise.d06.com wise.d06.com
+
+		<Directory /var/www/wise.d06.com.conf>
+			Options +FollowSymLinks -Multiviews
+			AllowOverride All
+		</Directory>
+		
+		ErrorLog ${APACHE_LOG_DIR}/error.log
+		CustomLog ${APACHE_LOG_DIR}/access.log combined
+	</VirtualHost>
+      ```
+   3. Mengaktifkan konfigurasi yang telah dibuat dengan command
+      ```
+      a2ensite wise.d06.com
+      ```
+   4. Download semua resource soal dan letakkan pada /var/www/eden.wise.d06.com
+   5. Ketika Mengakses url www.wise.d06.com dengan lynx maka akan didapatkan hasil berikut.
+      [Gambar akses www.wise.d06.com dari klien]  
 ## Soal 9   
    Setelah itu, Loid juga membutuhkan agar url www.wise.yyy.com/index.php/home dapat menjadi menjadi www.wise.yyy.com/home (9).  
       
