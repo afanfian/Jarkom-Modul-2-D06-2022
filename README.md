@@ -601,7 +601,7 @@ Muhamad Ridho Pratama       | 5025201186
    ```
 
 ## Kendala Pengerjaan
-   - Terdapat masalah/error saat export/import portable object dari/ke versi GNS3 yang berbeda. Pada modul, dijelaskan untuk VirtualBox menggunakan versi GNS3 2.2.19 dan untuk VMWare menggunakan versi GNS3 2.2.19. Akan tetapi, portable project dari versi 2.2.26 (serta kami juga mencoba 2.2.34) tidak bisa di-import ke 2.2.19
+   - Terdapat masalah/error saat export/import portable object dari/ke versi GNS3 yang berbeda. Pada modul, dijelaskan untuk VirtualBox menggunakan versi GNS3 2.2.19 dan untuk VMWare menggunakan versi GNS3 2.2.26. Akan tetapi, portable project dari versi 2.2.26 (serta kami juga mencoba 2.2.34) tidak bisa di-import ke 2.2.19
    - Sempat bingung kapan menggunakan DNS record A dan kapan menggunakan CNAME saat ingin membuat alias
    - Beberapa alamat web server sempat tidak bisa diakses, tetapi bisa di-`ping` dan kami tidak menemukan error-nya, akhirnya kami memutuskan untuk membuat semuanya dari ulang
    - Pada no. 16, saat mengakses alamat Eden, malah ter-redirect ke alamat eden.wise.d06.com, bukan ke wise.d06.com
