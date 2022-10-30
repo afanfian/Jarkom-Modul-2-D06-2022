@@ -30,7 +30,6 @@ Muhamad Ridho Pratama       | 5025201186
   - [Soal 16](#soal-16)
   - [Soal 17](#soal-17)
   - [Kendala Pengerjaan](#kendala-pengerjaan)
-  - [Referensi](#referensi)
 
 ## Soal 1   
    WISE akan dijadikan sebagai DNS Master, Berlint akan dijadikan DNS Slave, dan Eden akan digunakan sebagai Web Server. Terdapat 2 Client yaitu SSS, dan Garden. Semua node terhubung pada router Ostania, sehingga dapat mengakses internet.  
@@ -111,71 +110,87 @@ Muhamad Ridho Pratama       | 5025201186
       gateway 10.18.3.1
   ```  
    12. Restart semua node.  
-   13. Topologi sudah bisa berjalan secara lokal, namun untuk mengakses jaringan keluar maka perlu dilakukan beberapa konfigurasi sebagai berikut :
-   - Ketikkan `vim .bashrc` pada router `Ostania` dan masukkan command berikut :
-   ```
-   iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -s 192.173.0.0/16
-   ```
-- Ketikkan command `cat /etc/resolv.conf` di `Ostania` kemudian isi dengan nameserver yang sesuai
+   13. Topologi sudah bisa berjalan secara lokal, namun untuk mengakses jaringan keluar maka perlu dilakukan beberapa konfigurasi sebagai berikut:
+   - Ketikkan command berikut di `Ostania`
+    ```
+    iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -s 192.173.0.0/16
+    ```
+
+   - Ketikkan command `cat /etc/resolv.conf` di `Ostania` kemudian copy outputnya
    ```
    nameserver 192.168.122.1
    ```
-- Pada node Wise, SSS, Garden,dan Eden. Ketikkan command `service .bashrc` kemudian masukkan command berikut : 
+
+   - Pada node Wise, SSS, Garden dan Eden, masukkan command yang didapat dari `Ostania` ke `/etc/resolv.conf`: 
    ```
    echo nameserver 192.168.122.1 > /etc/resolv.conf
    ```
- - Restart kembali semua node dan semua node sekarang sudah bisa melakukan ping ke www.google.com, yang artinya topologi sudah bisa mengakses jaringan keluar. <br>
    {Picture ketika ping google.com}
+
 ## Soal 2   
    Untuk mempermudah mendapatkan informasi mengenai misi dari Handler, bantulah Loid membuat website utama dengan akses wise.yyy.com dengan alias www.wise.yyy.com pada folder wise.  
 
-   **Jawaban Soal 2**  
-1. Buka WebConsole `Wise`, dan `Berlint`. Install bind9 dengan memasukkan command berikut
-  ```
-  apt-get update
-  apt-get install bind9 -y
-  ```
-2. Buka WebConsole `SSS` ,dan `Garden`. I
- ```
- apt-get update
- apt-get install dnsutils -y
- ```
-3. Restart semua node.
-4. Masukkan command berikut pada `Wise`
-  ```
- nano /etc/bind/named.conf.local
-  ```
-5. Isikan configurasi zone domain **wise.d06.com** sesuai dengan syntax berikut:
-  ```
-  zone "wise.d06.com" {
-	type master;
-	file "/etc/bind/wise/wise.d06.com";
-};
-  ```
-6. Buat folder **wise** di dalam /etc/bind
+   **Jawaban Soal 2**
+1. Install semua package yang diperlukan terlebih dahulu
+   1. Pada `Wise` dan `Berlint`, install bind9 dengan memasukkan command berikut:
+      ```
+      apt-get-update
+      apt-get install bind9 -y
+      ```
+   2. Pada `SSS` dan `Garden`, install dnsutils dan lynx
+      ```
+      apt-get update
+      apt-get install dnsutils lynx -y
+      ```
+   3. Pada `Eden`, install package berikut:
+      ```
+      apt-get update
+      apt-get apache2 php libapache2-mod-php7.0 -y
+      ```
+
+2. Masukkan command berikut pada `Wise`
+   ```
+   nano /etc/bind/named.conf.local
+   ```
+
+3. Isikan configurasi zone domain **wise.d06.com** sesuai dengan syntax berikut:
+   ```
+   zone "wise.d06.com" {
+      type master;
+      file "/etc/bind/wise/wise.d06.com";
+   };
+   ```
+
+4. Buat folder **wise** di dalam /etc/bind
   ```
   mkdir /etc/bind/wise
   ```
-7. Copy file `db.local` pada path `/etc/bind` ke dalam folder **wise** yang baru saja dibuat dan ubah namanya menjadi `wise.d06.com`
+
+5. Copy file `db.local` pada path `/etc/bind` ke dalam folder **wise** yang baru saja dibuat dan ubah namanya menjadi `wise.d06.com`
   ```
   cp /etc/bind/db.local /etc/bind/wise/wise.d06.com
   ```
-8. Buka file **wise.d06.com** dan edit seperti gambar berikut dengan IP 10.18.2.2 dan IP 10.18.3.3 serta record CNAME `www` <br>
+
+6. Buka file **wise.d06.com** dan edit seperti gambar berikut dengan IP 10.18.2.2 dan IP 10.18.3.3 serta record CNAME `www` <br>
    ![soal2_no8](https://user-images.githubusercontent.com/55425460/198859715-d561b877-12e1-48c8-b354-7465879d62b6.png)
-9. Restart bind9 dengan command `service bind9 restart`
-10. Comment nameserver `Ostania` pada `etc/resolv.conf` di node `SSS` dan `Garden` kemudian tambahkan `nameserver 10.18.2.2` <br>
+
+7. Restart bind9 dengan command `service bind9 restart`
+
+8. Comment nameserver `Ostania` pada `etc/resolv.conf` di node `SSS` dan `Garden` kemudian tambahkan `nameserver 10.18.2.2` <br>
    ![soal2_no10](https://user-images.githubusercontent.com/55425460/198859719-ebb59b6b-6100-4fb0-a15a-0550a275b270.png)
-11. Kemudian test dengan cara ping IP `wise.d06.com` dan `wise.d06.com` pada `SSS` atau `Garden` <br>
+
+9.  Kemudian test dengan cara ping IP `wise.d06.com` dan `wise.d06.com` pada `SSS` atau `Garden` <br>
    ![soal2_no11](https://user-images.githubusercontent.com/55425460/198859739-4dbaa2b3-1e6c-4afd-a116-603a1a67634e.png)
+
 ## Soal 3  
    Setelah itu ia juga ingin membuat subdomain eden.wise.yyy.com dengan alias www.eden.wise.yyy.com yang diatur DNS-nya di WISE dan mengarah ke Eden.  
    
-   **Jawaban Soal 3**  
+   **Jawaban Soal 3**
    1. Jalankan command `nano /etc/bind/kaizoku/wise.d06.com` dan masukkan data seperti gambar berikut untuk membuat subdomain dan aliasnya <br>
       ![soal3_no1](https://user-images.githubusercontent.com/55425460/198859756-b5bac97a-f84f-4332-a96b-49fef1c19792.png)
 
-  2. Restart bind9 dengan menggunakan command `service bind9 restart`
-  3. Kemudian test dengan cara ping IP `eden.wise.d06.com` dan `www.eden.wise.d06.com` pada `SSS` atau `Graden` <br>
+   2. Restart bind9 dengan menggunakan command `service bind9 restart`
+   3. Kemudian test dengan cara ping IP `eden.wise.d06.com` dan `www.eden.wise.d06.com` pada `SSS` atau `Graden` <br>
      ![soal3_no3](https://user-images.githubusercontent.com/55425460/198859761-b95e44de-eb1e-4dae-a7b0-1082d5d5f1b8.png)
 
 ## Soal 4   
@@ -183,7 +198,7 @@ Muhamad Ridho Pratama       | 5025201186
    
    **Jawaban Soal 4**  
    1. Jalankan command `nano /etc/bind/named.conf.local` pada `Wise`
-   2. Lalu tambahkan konfigurasi berikut ke dalam file `named.conf.local` dibawah zone `wise.d06.com`. Tambahkan reverse IP `10.18.2` yaitu `10.18.2`. 
+   2. Lalu tambahkan konfigurasi berikut ke dalam file `named.conf.local` dibawah zone `wise.d06.com`. Tambahkan reverse IP `10.18.2` yaitu `2.18.10`. 
 	```
 	zone "2.18.10.in-addr.arpa" {
 	   type master;
@@ -243,21 +258,21 @@ Muhamad Ridho Pratama       | 5025201186
    1. Pada `Wise`, edit file `/etc/bind/wise/wise.d06.com` dan ubah menjadi seperti di bawah ini. <br>
 	![soal6_no1](https://user-images.githubusercontent.com/55425460/198860327-bc4968ba-75c4-4102-a62b-96dc18db0fa6.png)
 
-   2. Kemudian edit file `/etc/bind/named.conf.options` pada `Wise`, comment `dnssec-validation auto;` dan tambahkan `allow-query{any;};` <br>!
-	[soal6_no2](https://user-images.githubusercontent.com/55425460/198860339-3e29f2bd-9950-4ede-ba14-28e2830e56a2.png)
+   2. Kemudian edit file `/etc/bind/named.conf.options` pada `Wise`, comment `dnssec-validation auto;` dan tambahkan `allow-query{any;};` <br>
+   ![soal6_no2](https://user-images.githubusercontent.com/55425460/198860339-3e29f2bd-9950-4ede-ba14-28e2830e56a2.png)
 
-   3. Restart bind9 `Wise` dengan command `service bind9 restart`
+   3. Restart bind9 pada `Wise` dengan command `service bind9 restart`
    4. Lakukan langkah kedua pada `Berlint`
    5. Lalu edit file `/etc/bind/named.conf.local` pada `Berlint` tambahkan syntax berikut:
-	 ```
-	 zone "operation.wise.d06.com" {
-		type master;
-		file "/etc/bind/wise/operation.wise.d06.com";
-	};
-	 ```
+      ```
+         zone "operation.wise.d06.com" {
+         type master;
+         file "/etc/bind/wise/operation.wise.d06.com";
+         };
+      ```
 	![soal6_no5](https://user-images.githubusercontent.com/55425460/198860354-aef8c607-a087-4f48-9fd9-033095a7e867.png)
 
-   6. Kemudian buatlah folder `wise` pada `Berlint` dengan mengetikkan command `mkdir /etc/bind/operation`
+   6. Kemudian buatlah folder `operation` pada `Berlint` dengan mengetikkan command `mkdir /etc/bind/operation`
    7. Dan ketikkan command `cp /etc/bind/db.local /etc/bind/operation/operation.wise.d06.com` pada `Berlint`
    8. Kemudian edit file `operation.wise.d06.com` pada `Berlint` menjadi seperti dibawah ini <br>
       ![soal6_no8](https://user-images.githubusercontent.com/55425460/198860357-af8c3386-6d23-4793-b268-d29e0dd19044.png)
@@ -290,15 +305,15 @@ Muhamad Ridho Pratama       | 5025201186
       ```
    2. Edit file wise.d06.com.conf menjadi 
       ```
-	<VirtualHost *:80>
-		ServerAdmin webmaster@localhost
-		DocumentRoot /var/www/wise.d06.com
-		ServerName www.wise.d06.com
-		ServerAlias www.wise.d06.com wise.d06.com
-		
-		ErrorLog ${APACHE_LOG_DIR}/error.log
-		CustomLog ${APACHE_LOG_DIR}/access.log combined
-	</VirtualHost>
+      <VirtualHost *:80>
+         ServerAdmin webmaster@localhost
+         DocumentRoot /var/www/wise.d06.com
+         ServerName www.wise.d06.com
+         ServerAlias www.wise.d06.com wise.d06.com
+         
+         ErrorLog ${APACHE_LOG_DIR}/error.log
+         CustomLog ${APACHE_LOG_DIR}/access.log combined
+      </VirtualHost>
       ```
    3. Mengaktifkan konfigurasi yang telah dibuat dengan command
       ```
@@ -335,14 +350,10 @@ Muhamad Ridho Pratama       | 5025201186
       ```
       RewriteEngine On
       RewriteCond %{REQUEST_FILENAME} !-d
-      RewriteRule ^([^\.]+)$ $1.php [NC,L]
-
-      RewriteBase /
-      RewriteCond %{HTTP_HOST} ^10\.18\.3\.3$
-      RewriteRule ^(.*)$ http://www.wise.d06.com/$1 [L,R=301]
+      RewriteRule ^home$ index.php/home
       ```    
-   2. Restart apache2 dengan cara `service apache2 restart` 
-   3. Ketika Mengakses url www.wise.d06.com/home dengan lynx maka akan didapatkan hasil berikut.  
+   3. Restart apache2 dengan cara `service apache2 restart` 
+   4. Ketika Mengakses url www.wise.d06.com/home dengan lynx maka akan didapatkan hasil berikut.  
       ![soal9_no4](https://user-images.githubusercontent.com/55425460/198860394-ff7a21e8-8133-4700-ad53-8f4cf7a35ef4.png)
 
       
@@ -350,7 +361,7 @@ Muhamad Ridho Pratama       | 5025201186
    Setelah itu, pada subdomain www.eden.wise.yyy.com, Loid membutuhkan penyimpanan aset yang memiliki DocumentRoot pada /var/www/eden.wise.yyy.com.  
       
    **Jawaban Soal 10** 
-   1. Mengedit file eden.wise.d06.com.conf menjadi seperti ini
+   1. Copy file 000-default.conf menjadi file eden.wise.d06.com.conf, lalu edit menjadi:
    ```
    <VirtualHost *:80>
       ServerAdmin webmaster@localhost
@@ -358,32 +369,18 @@ Muhamad Ridho Pratama       | 5025201186
       ServerName www.eden.wise.d06.com
       ServerAlias www.eden.wise.d06.com eden.wise.d06.com
 
-      <Directory /var/www/eden.wise.d06.com/public>
-         Options +Indexes
-      </Directory>
-
-      <Directory /var/www/eden.wise.d06.com/error>
-         Options -Indexes
-      </Directory>
-
-      <Directory /var/www/eden.wise.d06.com/public/js>
-         Options +Indexes
-      </Directory>
-
-      Alias "/js" "/var/www/eden.wise.d06.com/public/js"
-
-      ErrorDocument 404 /error/404.html
-
-      <Directory /var/www/eden.wise.d06.com/public/images>
-         AllowOverride All
-      </Directory>
-
       ErrorLog ${APACHE_LOG_DIR}/error.log
       CustomLog ${APACHE_LOG_DIR}/access.log combined
    </VirtualHost>
    ```
-   2. Restart apache dengan cara `service apache2 restart`
-   3. Ketika Mengakses url www.eden.wise.d06.com dengan lynx maka akan didapatkan hasil berikut.  
+   2. Buat folder /var/www/eden.wise.d06.com
+      ```
+      mkdir /var/www/eden.wise.d06.com
+      ```
+   3. Masukkan semua resource untuk eden.wise ke folder /var/www/eden.wise.d06.com
+   4. Aktifkan file konfigurasi dengan `a2ensite eden.wise.d06.com`
+   5. Restart apache dengan cara `service apache2 restart`
+   6. Ketika Mengakses url www.eden.wise.d06.com dengan lynx maka akan didapatkan hasil berikut.  
       ![soal10_no3](https://user-images.githubusercontent.com/55425460/198860422-c16827e3-c8b5-4230-88cd-ed1c2a057634.png)
 
       
@@ -391,7 +388,7 @@ Muhamad Ridho Pratama       | 5025201186
    Akan tetapi, pada folder /public, Loid ingin hanya dapat melakukan directory listing saja.  
       
    **Jawaban Soal 11** 
-   1. Mengedit file eden.wise.d06.com.conf dengan menambahkan Options + Indexes menjadi seperti ini
+   1. Mengedit file eden.wise.d06.com.conf dengan menambahkan `Options +Indexes` untuk /public, dan `Options -Indexes` untuk /error menjadi seperti ini
    ```
    <VirtualHost *:80>
       ServerAdmin webmaster@localhost
@@ -405,18 +402,6 @@ Muhamad Ridho Pratama       | 5025201186
 
       <Directory /var/www/eden.wise.d06.com/error>
          Options -Indexes
-      </Directory>
-
-      <Directory /var/www/eden.wise.d06.com/public/js>
-         Options +Indexes
-      </Directory>
-
-      Alias "/js" "/var/www/eden.wise.d06.com/public/js"
-
-      ErrorDocument 404 /error/404.html
-
-      <Directory /var/www/eden.wise.d06.com/public/images>
-         AllowOverride All
       </Directory>
 
       ErrorLog ${APACHE_LOG_DIR}/error.log
@@ -432,7 +417,7 @@ Muhamad Ridho Pratama       | 5025201186
    Tidak hanya itu, Loid juga ingin menyiapkan error file 404.html pada folder /error untuk mengganti error kode pada apache.  
       
    **Jawaban Soal 12** 
-   1. Mengedit file eden.wise.d06.com.conf dengan menambahkan ErrorDocument 404 /error/404.html menjadi seperti ini  
+   1. Mengedit file eden.wise.d06.com.conf dengan menambahkan `ErrorDocument 404 /error/404.html` menjadi seperti ini  
 
       ```
       <VirtualHost *:80>
@@ -449,17 +434,7 @@ Muhamad Ridho Pratama       | 5025201186
             Options -Indexes
          </Directory>
 
-         <Directory /var/www/eden.wise.d06.com/public/js>
-            Options +Indexes
-         </Directory>
-
-         Alias "/js" "/var/www/eden.wise.d06.com/public/js"
-
          ErrorDocument 404 /error/404.html
-
-         <Directory /var/www/eden.wise.d06.com/public/images>
-            AllowOverride All
-         </Directory>
 
          ErrorLog ${APACHE_LOG_DIR}/error.log
          CustomLog ${APACHE_LOG_DIR}/access.log combined
@@ -493,17 +468,9 @@ Muhamad Ridho Pratama       | 5025201186
          Options -Indexes
       </Directory>
 
-      <Directory /var/www/eden.wise.d06.com/public/js>
-         Options +Indexes
-      </Directory>
-
       Alias "/js" "/var/www/eden.wise.d06.com/public/js"
 
       ErrorDocument 404 /error/404.html
-
-      <Directory /var/www/eden.wise.d06.com/public/images>
-         AllowOverride All
-      </Directory>
 
       ErrorLog ${APACHE_LOG_DIR}/error.log
       CustomLog ${APACHE_LOG_DIR}/access.log combined
@@ -517,7 +484,8 @@ Muhamad Ridho Pratama       | 5025201186
    Loid meminta agar www.strix.operation.wise.yyy.com hanya bisa diakses dengan port 15000 dan port 15500.  
       
    **Jawaban Soal 14** 
-   1. Mengedit file strix.operation.wise.d06.com.conf dengan menambahkan Listen 15000 dan Listen 15500 menjadi seperti ini  
+   1. Di `/etc/apache2/sites-available`, buat dan edit file strix.operation.wise.d06.com.conf
+      Ubah port pada tag <VirtualHost> menjadi 15000 dan 15500
 
    ```
       <VirtualHost *:15000 *:15500>
@@ -526,13 +494,6 @@ Muhamad Ridho Pratama       | 5025201186
       DocumentRoot /var/www/strix.operation.wise.d06
       ServerName www.strix.operation.wise.d06.com
       ServerAlias www.strix.operation.wise.d06.com strix.operation.wise.d06.com
-
-      <Directory /var/www/strix.operation.wise.d06>
-         AuthType Basic
-         AuthName "Restricted Content"
-         AuthUserFile /etc/apache2/.htpasswd
-         Require valid-user
-      </Directory>	
 
       ErrorLog ${APACHE_LOG_DIR}/error.log
       CustomLog ${APACHE_LOG_DIR}/access.log combined
@@ -553,11 +514,16 @@ Muhamad Ridho Pratama       | 5025201186
       Listen 443
    </IfModule>
    ```
-   3. Restart apache dengan cara `service apache2 restart`
-   4. Berikut adalah tampilan ketika mengakses url www.strix.operation.wise.d06.com:15000 dengan lynx.  
+   3. Buat folder /var/www/strix.operation.wise.d06, lalu masukkan semua resource soal strix.operation.wise ke folder tersebut
+      ```
+      mkdir /var/www/strix.operation.wise.d06
+      ```
+   4. Aktifkan konfigurasi strix.operation.wise.d06.com dengan `a2ensite strix.operation.wise.d06.com`
+   5. Restart apache dengan cara `service apache2 restart`
+   6. Berikut adalah tampilan ketika mengakses url www.strix.operation.wise.d06.com:15000 dengan lynx.  
       ![soal14_no4](https://user-images.githubusercontent.com/55425460/198860478-6ad7ac91-326f-4d10-a858-b3858092b6c8.png)
 
-   5. Berikut adalah tampilan ketika mengakses url www.strix.operation.wise.d06.com:15500 dengan lynx.  
+   7. Berikut adalah tampilan ketika mengakses url www.strix.operation.wise.d06.com:15500 dengan lynx.  
       ![soal14_no5](https://user-images.githubusercontent.com/55425460/198860485-fe9b17db-5f20-4d78-a019-ea1342e0ff32.png)
 
 ## Soal 15   
@@ -566,6 +532,7 @@ Muhamad Ridho Pratama       | 5025201186
    **Jawaban Soal 15** 
 
    1. Pada Eden, di file /etc/apache2/sites-available/strix.operation.wise.d06.com.conf, tambahkan line berikut:
+
    ```
    <Directory /var/www/strix.operation.wise.d06>
 		AuthType Basic
@@ -574,7 +541,9 @@ Muhamad Ridho Pratama       | 5025201186
 		Require valid-user
 	</Directory>
    ```
+
    sehingga menjadi
+
    ```
    <VirtualHost *:15000 *:15500>
       ServerAdmin webmaster@localhost
@@ -596,6 +565,8 @@ Muhamad Ridho Pratama       | 5025201186
    ```
    
    2. Lalu, buat file .htpasswd dengan username Twilight dan diletakkan di /etc/apache2, dengan cara menjalankan command `htpasswd -c /etc/apache2 Twilight`, lalu akan diminta untuk memasukkan password, ketikkan "opStrix" tanpa tanda petik.
+
+   Berikut adalah screenshot saat mengakses www.strix.operation.wise.d06.com dengan port 15000 dan 15500
 	![soal15_no2_password](https://user-images.githubusercontent.com/55425460/198860505-f1e6dfe1-a191-4814-8d8d-ffd15c450abe.png)
 	![soal15_no2_username](https://user-images.githubusercontent.com/55425460/198860507-26d64fe8-be2b-4400-931a-34830b16fe08.png)
 
@@ -605,7 +576,7 @@ Muhamad Ridho Pratama       | 5025201186
       
    **Jawaban Soal 16**
 
-   Pada Eden, di file /etc/apache2/sites-available/000-default.conf, ganti variabel DocumentRoot ke /var/www/wise.d06.com
+   Pada node Eden, di file /etc/apache2/sites-available/000-default.conf, ganti variabel DocumentRoot ke /var/www/wise.d06.com
    ```
    <VirtualHost *:80>
       DocumentRoot /var/www/wise.d06.com
@@ -623,7 +594,7 @@ Muhamad Ridho Pratama       | 5025201186
 
    1. Pada Eden, tambahkan line berikut ke file /etc/apache2/sites-available/eden.wise.d06.com.conf
    ```
-   <Directory /var/www/eden.wise.d06.com/public/images>
+   <Directory /var/www/eden.wise.d06.com>
             AllowOverride All
    </Directory>
    ```
@@ -633,10 +604,11 @@ Muhamad Ridho Pratama       | 5025201186
    RewriteRule ^(.*)eden(.*)$ http://www.eden.wise.d06.com/public/images/eden.png [L,R=301]
    ```
 
+   Berikut adalah screenshot saat mengakses `www.eden.wise.d06.com/eden`:
+
+
 ## Kendala Pengerjaan
    - Terdapat masalah/error saat export/import portable object dari/ke versi GNS3 yang berbeda. Pada modul, dijelaskan untuk VirtualBox menggunakan versi GNS3 2.2.19 dan untuk VMWare menggunakan versi GNS3 2.2.26. Akan tetapi, portable project dari versi 2.2.26 (serta kami juga mencoba 2.2.34) tidak bisa di-import ke 2.2.19
    - Sempat bingung kapan menggunakan DNS record A dan kapan menggunakan CNAME saat ingin membuat alias
    - Beberapa alamat web server sempat tidak bisa diakses, tetapi bisa di-`ping` dan kami tidak menemukan error-nya, akhirnya kami memutuskan untuk membuat semuanya dari ulang
    - Pada no. 16, saat mengakses alamat Eden, malah ter-redirect ke alamat eden.wise.d06.com, bukan ke wise.d06.com
-
-## Referensi
