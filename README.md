@@ -48,7 +48,7 @@ Muhamad Ridho Pratama       | 5025201186
    9. Jika berhasil, maka akan menampilkan tampilan seperti berikut : <br>
 ![image](https://user-images.githubusercontent.com/72689610/139519228-16e8c278-119a-4ce7-8ad9-5e7be93f418d.png)  
    10. Dibawah ini merupakan topologi dari soal modul 2:  
-   {Picture topologi}
+   ![soal1_no10](https://user-images.githubusercontent.com/55425460/198859647-4b123e1c-d23a-46d8-8d46-54f9d4c2ffed.png)
    11. Kita perlu melakukan setting network pada masing-masing node dengan fitur `Edit network configuration`, untuk konfigurasi network pada masing - masing node diisi dengan setting sebagai berikut :
    - Ostania
    ```
@@ -130,12 +130,12 @@ Muhamad Ridho Pratama       | 5025201186
    Untuk mempermudah mendapatkan informasi mengenai misi dari Handler, bantulah Loid membuat website utama dengan akses wise.yyy.com dengan alias www.wise.yyy.com pada folder wise.  
 
    **Jawaban Soal 2**  
-1. Buka WebConsole `Wise`, dan `Berlint`. Ketikkan `service .bashrc` dan masukkan command berikut
+1. Buka WebConsole `Wise`, dan `Berlint`. Install bind9 dengan memasukkan command berikut
   ```
   apt-get update
   apt-get install bind9 -y
   ```
-2. Buka WebConsole `SSS` ,dan `Garden`. Ketikkan `service .bashrc` dan masukkan command berikut
+2. Buka WebConsole `SSS` ,dan `Garden`. I
  ```
  apt-get update
  apt-get install dnsutils -y
@@ -161,40 +161,45 @@ Muhamad Ridho Pratama       | 5025201186
   cp /etc/bind/db.local /etc/bind/wise/wise.d06.com
   ```
 8. Buka file **wise.d06.com** dan edit seperti gambar berikut dengan IP 10.18.2.2 dan IP 10.18.3.3 serta record CNAME `www` <br>
-   {Picture dalam file wise.d06.com}  
+   ![soal2_no8](https://user-images.githubusercontent.com/55425460/198859715-d561b877-12e1-48c8-b354-7465879d62b6.png)
 9. Restart bind9 dengan command `service bind9 restart`
 10. Comment nameserver `Ostania` pada `etc/resolv.conf` di node `SSS` dan `Garden` kemudian tambahkan `nameserver 10.18.2.2` <br>
-   {Picture dalam file etc/resolv.conf di SS & Garden}  
-12. Kemudian test dengan cara ping IP `wise.d06.com` dan `wise.d06.com` pada `SSS` atau `Garden` <br>
-   {Picture dalam ping wise.d06.com/www.wise.d06.com di SSS & Garden}  
+   ![soal2_no10](https://user-images.githubusercontent.com/55425460/198859719-ebb59b6b-6100-4fb0-a15a-0550a275b270.png)
+11. Kemudian test dengan cara ping IP `wise.d06.com` dan `wise.d06.com` pada `SSS` atau `Garden` <br>
+   ![soal2_no11](https://user-images.githubusercontent.com/55425460/198859739-4dbaa2b3-1e6c-4afd-a116-603a1a67634e.png)
 ## Soal 3  
    Setelah itu ia juga ingin membuat subdomain eden.wise.yyy.com dengan alias www.eden.wise.yyy.com yang diatur DNS-nya di WISE dan mengarah ke Eden.  
    
    **Jawaban Soal 3**  
    1. Jalankan command `nano /etc/bind/kaizoku/wise.d06.com` dan masukkan data seperti gambar berikut untuk membuat subdomain dan aliasnya <br>
-  {Picture didalam wise file wise.d06.com}  
+      ![soal3_no1](https://user-images.githubusercontent.com/55425460/198859756-b5bac97a-f84f-4332-a96b-49fef1c19792.png)
+
   2. Restart bind9 dengan menggunakan command `service bind9 restart`
   3. Kemudian test dengan cara ping IP `eden.wise.d06.com` dan `www.eden.wise.d06.com` pada `Loguetown` atau `Alabasta` <br>
-   {Picture ketika ping di SSS eden.wise.d06.com}  
-   {Picture ketika ping di SSS www.eden.wise.d06.com}  
+     ![soal3_no3](https://user-images.githubusercontent.com/55425460/198859761-b95e44de-eb1e-4dae-a7b0-1082d5d5f1b8.png)
+
 ## Soal 4   
    Buat juga reverse domain untuk domain utama.  
    
    **Jawaban Soal 4**  
    1. Jalankan command `nano /etc/bind/named.conf.local` pada `Wise`
    2. Lalu tambahkan konfigurasi berikut ke dalam file `named.conf.local` dibawah zone `wise.d06.com`. Tambahkan reverse IP `10.18.2` yaitu `10.18.2`. 
- ```
- zone "2.18.10.in-addr.arpa" {
-    type master;
-    file "/etc/bind/wise/2.18.10.in-addr.arpa";
-};
- ```  
-	{Picture didalam wise file named.conf.local}  
+	```
+	zone "2.18.10.in-addr.arpa" {
+	   type master;
+	   file "/etc/bind/wise/2.18.10.in-addr.arpa";
+	};
+	```
+	![soal4_no2](https://user-images.githubusercontent.com/55425460/198859772-7574a680-8187-4f5b-abb8-be7f5ab4e8d7.png)
+
    3. Copykan file `db.local` pada path `/etc/bind` ke dalam folder **wise** yang baru saja dibuat dan ubah namanya menjadi `2.18.10.in-addr.arpa`  
-   4. Edit file `2.18.10.in-addr.arpaa` menggunakan command `nano/etc/bind/wise/2.18.10.in-addr.arpa` menjadi seperti gambar di bawah ini <br>    {Picture didalam wise file named.conf.local} 
+   4. Edit file `2.18.10.in-addr.arpaa` menggunakan command `nano/etc/bind/wise/2.18.10.in-addr.arpa` menjadi seperti gambar di bawah ini <br>
+      ![soal4_no4](https://user-images.githubusercontent.com/55425460/198859791-aeefde1f-09e7-4363-9ffd-a0bcfa0ea73b.png)
    5. Restart bind9 dengan command `service bind9 restart`
    6. Test dengan cara mengetikkan command `host -t PTR "10.18.2.2"` pada `SSS`. Jika muncul seperti pada gambar berikut berarti sudah benar. <br>  
-      {Picture PING host -t PTR 10.18.2.2 di SSS} 
+      ![soal4_no6](https://user-images.githubusercontent.com/55425460/198859804-a8dd7a39-30a5-4a58-9a4f-05c47fd0baf8.png)
+
+      
 ## Soal 5   
    Agar dapat tetap dihubungi jika server WISE bermasalah, buatlah juga Berlint sebagai DNS Slave untuk domain utama.  
    
@@ -209,7 +214,8 @@ Muhamad Ridho Pratama       | 5025201186
         file "/etc/bind/wise/wise.d06.com";
 };
  ```
-	{Picture didalam wise named.conf.local}  
+	![soal5_no1](https://user-images.githubusercontent.com/55425460/198859814-42df8001-365d-4ef6-9b30-fc3d780f5cda.png)
+
    2. Restart bind9 `Wise` dengan command `service bind9 restart`
    3. Kemudian buka file `/etc/bind/named.conf.local` pada `Berlint` dan tambahkan syntax berikut:
 	 ```
@@ -219,12 +225,17 @@ Muhamad Ridho Pratama       | 5025201186
 	    file "/var/lib/bind/wise.d06.com";
 	};
 	 ```
-	{Picture didalam berlint file named.conf.local}
+	![soal5_no3](https://user-images.githubusercontent.com/55425460/198859819-972ce91f-e68b-44d1-bdc7-b0b29f0bf717.png)
+
    4. Restart bind9 `Berlint` dengan command `service bind9 restart`
    5. Test dengan cara mematikan bind9 pada `Wise` yaitu dengan mengetikkan comman `service bind9 stop`
+  	![soal5_no5](https://user-images.githubusercontent.com/55425460/198859832-650f3f6d-f01a-4e6a-89dc-112d72135ff3.png)
+
    6. Di node `SSS` dan `Garden` tambahkan `nameserver 10.18.3.2`.
-   7. Lalu ping ke semua domain atau subdomain yang telah dibuat.  
-   {Picture ping domain atau subdomain}
+   7. Lalu ping ke semua domain atau subdomain yang telah dibuat.
+   	![soal5_no7](https://user-images.githubusercontent.com/55425460/198859836-8d9756dd-f103-4c48-8858-ee0097b4655b.png)
+
+   	
 ## Soal 6   
    Karena banyak informasi dari Handler, buatlah subdomain yang khusus untuk operation yaitu operation.wise.yyy.com dengan alias www.operation.wise.yyy.com yang didelegasikan dari WISE ke Berlint dengan IP menuju ke Eden dalam folder operation.  
       
