@@ -175,7 +175,7 @@ Muhamad Ridho Pratama       | 5025201186
       ![soal3_no1](https://user-images.githubusercontent.com/55425460/198859756-b5bac97a-f84f-4332-a96b-49fef1c19792.png)
 
   2. Restart bind9 dengan menggunakan command `service bind9 restart`
-  3. Kemudian test dengan cara ping IP `eden.wise.d06.com` dan `www.eden.wise.d06.com` pada `Loguetown` atau `Alabasta` <br>
+  3. Kemudian test dengan cara ping IP `eden.wise.d06.com` dan `www.eden.wise.d06.com` pada `SSS` atau `Graden` <br>
      ![soal3_no3](https://user-images.githubusercontent.com/55425460/198859761-b95e44de-eb1e-4dae-a7b0-1082d5d5f1b8.png)
 
 ## Soal 4   
@@ -204,7 +204,7 @@ Muhamad Ridho Pratama       | 5025201186
    Agar dapat tetap dihubungi jika server WISE bermasalah, buatlah juga Berlint sebagai DNS Slave untuk domain utama.  
    
    **Jawaban Soal 5**  
-   1. Edit file `/etc/bind/named.conf.local` pada `Wise` tepatnya pada zone `franky.A09.com` dan sesuaikan dengan syntax berikut
+   1. Edit file `/etc/bind/named.conf.local` pada `Wise` tepatnya pada zone `wise.d06.com` dan sesuaikan dengan syntax berikut
  ```
  zone "wise.d06.com" {
         type master;
