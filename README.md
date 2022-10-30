@@ -125,7 +125,9 @@ Muhamad Ridho Pratama       | 5025201186
    ```
    echo nameserver 192.168.122.1 > /etc/resolv.conf
    ```
-   {Picture ketika ping google.com}
+   
+   Berikut adalah screenshot melakukan `ping` ke google.com dari node `SSS`
+   ![soal1_no13](https://user-images.githubusercontent.com/55425460/198862626-87d4e510-e5e9-4d8c-bc88-cfdd28f0ce00.png)
 
 ## Soal 2   
    Untuk mempermudah mendapatkan informasi mengenai misi dari Handler, bantulah Loid membuat website utama dengan akses wise.yyy.com dengan alias www.wise.yyy.com pada folder wise.  
@@ -605,7 +607,7 @@ Muhamad Ridho Pratama       | 5025201186
    ```
 
    Berikut adalah screenshot saat mengakses `www.eden.wise.d06.com/eden`:
-
+   ![soal17](https://user-images.githubusercontent.com/55425460/198862679-72f39dcd-2232-4d08-99d7-046cfd6e8ad1.png)
 
 ## Kendala Pengerjaan
    - Terdapat masalah/error saat export/import portable object dari/ke versi GNS3 yang berbeda. Pada modul, dijelaskan untuk VirtualBox menggunakan versi GNS3 2.2.19 dan untuk VMWare menggunakan versi GNS3 2.2.26. Akan tetapi, portable project dari versi 2.2.26 (serta kami juga mencoba 2.2.34) tidak bisa di-import ke 2.2.19
