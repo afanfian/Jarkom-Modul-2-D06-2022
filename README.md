@@ -241,27 +241,32 @@ Muhamad Ridho Pratama       | 5025201186
       
    **Jawaban Soal 6**  
    1. Pada `Wise`, edit file `/etc/bind/wise/wise.d06.com` dan ubah menjadi seperti di bawah ini. <br>
-   {Picture pada wise file wise.d06.com}
-   2. Kemudian edit file `/etc/bind/named.conf.options` pada `Wise`, comment `dnssec-validation auto;` dan tambahkan `allow-query{any;};` <br>
-   {Picture pada wise file named.conf.options}
+	![soal6_no1](https://user-images.githubusercontent.com/55425460/198860327-bc4968ba-75c4-4102-a62b-96dc18db0fa6.png)
+
+   2. Kemudian edit file `/etc/bind/named.conf.options` pada `Wise`, comment `dnssec-validation auto;` dan tambahkan `allow-query{any;};` <br>!
+	[soal6_no2](https://user-images.githubusercontent.com/55425460/198860339-3e29f2bd-9950-4ede-ba14-28e2830e56a2.png)
+
    3. Restart bind9 `Wise` dengan command `service bind9 restart`
    4. Lakukan langkah kedua pada `Berlint`
    5. Lalu edit file `/etc/bind/named.conf.local` pada `Berlint` tambahkan syntax berikut:
- ```
- zone "operation.wise.d06.com" {
-        type master;
-        file "/etc/bind/wise/operation.wise.d06.com";
-};
- ```
-	{Picture didalam berlint file named.conf.local}
+	 ```
+	 zone "operation.wise.d06.com" {
+		type master;
+		file "/etc/bind/wise/operation.wise.d06.com";
+	};
+	 ```
+	![soal6_no5](https://user-images.githubusercontent.com/55425460/198860354-aef8c607-a087-4f48-9fd9-033095a7e867.png)
+
    6. Kemudian buatlah folder `wise` pada `Berlint` dengan mengetikkan command `mkdir /etc/bind/operation`
    7. Dan ketikkan command `cp /etc/bind/db.local /etc/bind/operation/operation.wise.d06.com` pada `Berlint`
    8. Kemudian edit file `operation.wise.d06.com` pada `Berlint` menjadi seperti dibawah ini <br>
-      {Picture pada berlint file operation.wise.d06.com}
+      ![soal6_no8](https://user-images.githubusercontent.com/55425460/198860357-af8c3386-6d23-4793-b268-d29e0dd19044.png)
+
    9. Restart bind9 `Berlint` dengan command `service bind9 restart`
    10. Kemudian test dengan cara ping IP `operation.wise.d06.com` dan `www.operation.wise.d06.com` pada `SSS` atau `Garden` <br>
-      {Picture ping pada SSS & Garden operation.wise.d06.com}  
-      {Picture ping pada SSS & Garden www.operation.wise.d06.com}
+      ![soal6_no10](https://user-images.githubusercontent.com/55425460/198860359-41a7fd0d-b8fd-4074-9329-0ae978297010.png)
+
+      
 ## Soal 7   
    Untuk informasi yang lebih spesifik mengenai Operation Strix, buatlah subdomain melalui Berlint dengan akses strix.operation.wise.yyy.com dengan alias www.strix.operation.wise.yyy.com yang mengarah ke Eden.  
       
@@ -301,7 +306,9 @@ Muhamad Ridho Pratama       | 5025201186
       ```
    4. Download semua resource soal dan letakkan pada /var/www/eden.wise.d06.com
    5. Ketika Mengakses url www.wise.d06.com dengan lynx maka akan didapatkan hasil berikut.  
-      -- {Gambar akses www.wise.d06.com dari klien} --
+      ![soal8_no5](https://user-images.githubusercontent.com/55425460/198860388-08173071-973c-4327-a0c9-82ac763bca7c.png)
+
+      
 ## Soal 9   
    Setelah itu, Loid juga membutuhkan agar url www.wise.yyy.com/index.php/home dapat menjadi menjadi www.wise.yyy.com/home.  
       
@@ -336,7 +343,9 @@ Muhamad Ridho Pratama       | 5025201186
       ```    
    2. Restart apache2 dengan cara `service apache2 restart` 
    3. Ketika Mengakses url www.wise.d06.com/home dengan lynx maka akan didapatkan hasil berikut.  
-      -- {Gambar akses www.wise.d06.com/home dari klien} --   
+      ![soal9_no4](https://user-images.githubusercontent.com/55425460/198860394-ff7a21e8-8133-4700-ad53-8f4cf7a35ef4.png)
+
+      
 ## Soal 10   
    Setelah itu, pada subdomain www.eden.wise.yyy.com, Loid membutuhkan penyimpanan aset yang memiliki DocumentRoot pada /var/www/eden.wise.yyy.com.  
       
@@ -374,8 +383,10 @@ Muhamad Ridho Pratama       | 5025201186
    </VirtualHost>
    ```
    2. Restart apache dengan cara `service apache2 restart`
-   3. Ketika Mengakses url www.eden.wise.d06.comdengan lynx maka akan didapatkan hasil berikut.  
-      -- {Gambar akses www.eden.wise.d06.com dari klien} --
+   3. Ketika Mengakses url www.eden.wise.d06.com dengan lynx maka akan didapatkan hasil berikut.  
+      ![soal10_no3](https://user-images.githubusercontent.com/55425460/198860422-c16827e3-c8b5-4230-88cd-ed1c2a057634.png)
+
+      
 ## Soal 11   
    Akan tetapi, pada folder /public, Loid ingin hanya dapat melakukan directory listing saja.  
       
@@ -414,7 +425,9 @@ Muhamad Ridho Pratama       | 5025201186
    ```
    2. Restart apache dengan cara `service apache2 restart`
    3. Berikut adalah tampilan ketika mengakses url www.eden.wise.d06.com/public dengan lynx.  
-      -- {Gambar akses www.eden.wise.d06.com/public dari klien} -- 
+      ![soal11_no3](https://user-images.githubusercontent.com/55425460/198860436-6575a65e-3d0b-42e3-bd67-5b68af2d99ab.png)
+
+      
 ## Soal 12   
    Tidak hanya itu, Loid juga ingin menyiapkan error file 404.html pada folder /error untuk mengganti error kode pada apache.  
       
@@ -454,14 +467,16 @@ Muhamad Ridho Pratama       | 5025201186
       ```
    2. Restart apache dengan cara `service apache2 restart`
    3. Berikut adalah tampilan ketika mengakses url www.eden.wise.d06.com/cek dengan lynx.  
-      -- {Gambar akses www.eden.wise.d06.com/cek dari klien} --
+      ![soal12_no3](https://user-images.githubusercontent.com/55425460/198860444-78ad436c-d8e3-4f7e-be6a-2007ba94f1d1.png)
+
       
 ## Soal 13   
    Loid juga meminta Franky untuk dibuatkan konfigurasi virtual host. Virtual host ini bertujuan untuk dapat mengakses file asset www.eden.wise.yyy.com/public/js menjadi www.eden.wise.yyy.com/js (13).  
       
    **Jawaban Soal 13**  
    1. Berikut adalah tampilan ketika mengakses url www.eden.wise.d06.com/public/js dengan lynx.  
-      -- {Gambar akses www.eden.wise.d06.com/public/js dari klien} --
+      ![soal13_no1](https://user-images.githubusercontent.com/55425460/198860467-3e1558e5-c189-4045-9c89-18f51588e500.png)
+      
    2. Mengedit file eden.wise.d06.com.conf dengan menambahkan `Alias "/js" "/var/www/eden.wise.d06.com/public/js"` menjadi seperti ini
    ```
    <VirtualHost *:80>
@@ -496,7 +511,8 @@ Muhamad Ridho Pratama       | 5025201186
    ```
    3. Restart apache dengan cara `service apache2 restart`
    4. Berikut adalah tampilan ketika mengakses url www.eden.wise.d06.com/js dengan lynx.  
-      -- {Gambar akses www.eden.wise.d06.com/js dari klien} --
+      ![soal13_no4](https://user-images.githubusercontent.com/55425460/198860468-6908d586-b805-479e-b254-4c10951f2635.png)
+      
 ## Soal 14   
    Loid meminta agar www.strix.operation.wise.yyy.com hanya bisa diakses dengan port 15000 dan port 15500.  
       
@@ -539,10 +555,10 @@ Muhamad Ridho Pratama       | 5025201186
    ```
    3. Restart apache dengan cara `service apache2 restart`
    4. Berikut adalah tampilan ketika mengakses url www.strix.operation.wise.d06.com:15000 dengan lynx.  
-      -- {Gambar akses www.strix.operation.wise.d06.com:15000 dari klien} --
+      ![soal14_no4](https://user-images.githubusercontent.com/55425460/198860478-6ad7ac91-326f-4d10-a858-b3858092b6c8.png)
+
    5. Berikut adalah tampilan ketika mengakses url www.strix.operation.wise.d06.com:15500 dengan lynx.  
-      -- {Gambar akses www.strix.operation.wise.d06.com:15500 dari klien} --
-   
+      ![soal14_no5](https://user-images.githubusercontent.com/55425460/198860485-fe9b17db-5f20-4d78-a019-ea1342e0ff32.png)
 
 ## Soal 15   
    Dengan autentikasi username Twilight dan password opStrix dan file di /var/www/strix.operation.wise.yyy (15).
@@ -578,10 +594,10 @@ Muhamad Ridho Pratama       | 5025201186
 
    </VirtualHost>
    ```
-
-   Lalu, buat file .htpasswd dengan username Twilight dan diletakkan di /etc/apache2, dengan cara menjalankan command `htpasswd -c /etc/apache2 Twilight`, lalu akan diminta untuk memasukkan password, ketikkan "opStrix" tanpa tanda petik.
-
-   (SS akses strix.operation.wise.d06.com di port 15000 dan 15500 dan diminta autentikasi)
+   
+   2. Lalu, buat file .htpasswd dengan username Twilight dan diletakkan di /etc/apache2, dengan cara menjalankan command `htpasswd -c /etc/apache2 Twilight`, lalu akan diminta untuk memasukkan password, ketikkan "opStrix" tanpa tanda petik.
+	![soal15_no2_password](https://user-images.githubusercontent.com/55425460/198860505-f1e6dfe1-a191-4814-8d8d-ffd15c450abe.png)
+	![soal15_no2_username](https://user-images.githubusercontent.com/55425460/198860507-26d64fe8-be2b-4400-931a-34830b16fe08.png)
 
    
 ## Soal 16   
@@ -595,6 +611,10 @@ Muhamad Ridho Pratama       | 5025201186
       DocumentRoot /var/www/wise.d06.com
    </VirtualHost>
    ```
+   
+   Berikut adalah hasil dari `ping 10.18.3.3`:
+   ![soal16](https://user-images.githubusercontent.com/55425460/198860530-fa77c826-bcc4-4223-ae5c-c8bde5d5435a.png)
+
 
 ## Soal 17   
    Karena website www.eden.wise.yyy.com semakin banyak pengunjung dan banyak modifikasi sehingga banyak gambar-gambar yang random, maka Loid ingin mengubah request gambar yang memiliki substring “eden” akan diarahkan menuju eden.png. Bantulah Agent Twilight dan Organisasi WISE menjaga perdamaian! (17).   
