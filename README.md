@@ -205,15 +205,15 @@ Muhamad Ridho Pratama       | 5025201186
    
    **Jawaban Soal 5**  
    1. Edit file `/etc/bind/named.conf.local` pada `Wise` tepatnya pada zone `wise.d06.com` dan sesuaikan dengan syntax berikut
- ```
- zone "wise.d06.com" {
-        type master;
-        notify yes;
-        also-notify { 10.18.3.2; };
-        allow-transfer { 10.18.3.2; };
-        file "/etc/bind/wise/wise.d06.com";
-};
- ```
+	 ```
+	 zone "wise.d06.com" {
+		type master;
+		notify yes;
+		also-notify { 10.18.3.2; };
+		allow-transfer { 10.18.3.2; };
+		file "/etc/bind/wise/wise.d06.com";
+	};
+	 ```
 	![soal5_no1](https://user-images.githubusercontent.com/55425460/198859814-42df8001-365d-4ef6-9b30-fc3d780f5cda.png)
 
    2. Restart bind9 `Wise` dengan command `service bind9 restart`
